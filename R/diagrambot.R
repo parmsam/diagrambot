@@ -163,12 +163,64 @@ generate_external_links_content <- function(code, diagram_type) {
       )
     )
   } else if (diagram_type == "graphviz") {
+    # Create GraphvizOnline editor link
+    generate_graphvizonline_url <- function(dot) {
+      # GraphvizOnline uses simple URL encoding for the hash fragment
+      encoded_dot <- utils::URLencode(dot, reserved = TRUE)
+      paste0("https://dreampuf.github.io/GraphvizOnline/#", encoded_dot)
+    }
+
+    graphvizonline_url <- generate_graphvizonline_url(code)
+
     # Create Kroki links using deflate+base64url encoding as required by Kroki
     encoded_code <- create_kroki_encoding(code)
     kroki_svg_url <- paste0("https://kroki.io/graphviz/svg/", encoded_code)
     kroki_png_url <- paste0("https://kroki.io/graphviz/png/", encoded_code)
 
     tagList(
+      tags$div(
+        class = "mb-3",
+        tags$h6(
+          tags$i(class = "fas fa-edit me-2"),
+          "GraphvizOnline Editor"
+        ),
+        tags$p(
+          class = "small text-muted",
+          "Interactive editor for viewing and editing your Graphviz diagram"
+        ),
+        tags$div(
+          class = "input-group",
+          tags$input(
+            type = "text",
+            class = "form-control font-monospace small",
+            value = graphvizonline_url,
+            readonly = TRUE,
+            onclick = "this.select()"
+          ),
+          tags$button(
+            class = "btn btn-outline-secondary",
+            type = "button",
+            onclick = paste0(
+              "navigator.clipboard.writeText('",
+              graphvizonline_url,
+              "')"
+            ),
+            tags$i(class = "fas fa-copy"),
+            " Copy"
+          ),
+          tags$button(
+            class = "btn btn-primary",
+            type = "button",
+            onclick = paste0(
+              "window.open('",
+              graphvizonline_url,
+              "', '_blank')"
+            ),
+            tags$i(class = "fas fa-external-link"),
+            " Open"
+          )
+        )
+      ),
       tags$div(
         class = "mb-3",
         tags$h6(
