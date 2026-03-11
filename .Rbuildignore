@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^diagrambot\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
