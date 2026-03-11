@@ -1,6 +1,9 @@
 # Install diagrambot from GitHub if not already installed
 if (!require("diagrambot", quietly = TRUE)) {
-    remotes::install_github("parmsam/canvasbot", dependencies = TRUE)
+    remotes::install_github(
+        "parmsam/canvasbot@posit-cloud-connect",
+        dependencies = TRUE
+    )
 }
 
 # Explicitly load required packages
